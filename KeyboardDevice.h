@@ -8,6 +8,8 @@
 #define KEYBOARDDEVICE_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <SDL/SDL.h>
+
 #include "InputDevice.h"
 #include "Keys.h"
 
@@ -22,6 +24,9 @@ public:
 	virtual	void	Update();
 	
 	virtual bool	IsKeyPressed(Keys key);
+
+protected:
+	Uint8*			m_KeyStates;
 };
 
 #endif // KEYBOARDDEVICE_H
