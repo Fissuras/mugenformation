@@ -14,8 +14,4 @@ typedef unsigned short	Size;
 
 typedef unsigned long	UID;
 
-#ifndef NULL
-#define NULL	0
-#endif
-
 #endif // TYPES_H

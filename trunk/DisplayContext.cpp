@@ -20,6 +20,7 @@ DisplayContext::DisplayContext()
 ,m_Color(0)
 {
 	int errorCode = SDL_Init(SDL_INIT_VIDEO);
+	(void)errorCode;
 	
 	DEBUG_ASSERT(errorCode >= 0 && SDL_GetError());
 }
