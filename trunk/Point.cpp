@@ -31,7 +31,7 @@ void Point::MoveTo(Coord x, Coord y)
 	m_Y = y;
 }
 
-void Point::MoveTo(Point& position)
+void Point::MoveTo(const Point& position)
 {
 	m_X = position.m_X;
 	m_Y = position.m_Y;
@@ -43,7 +43,7 @@ void Point::MoveBy(Coord x, Coord y)
 	m_Y += y;
 }
 
-void Point::MoveBy(Point& position)
+void Point::MoveBy(const Point& position)
 {
 	m_X += position.m_X;
 	m_Y += position.m_Y;

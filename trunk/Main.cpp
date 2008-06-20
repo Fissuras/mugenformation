@@ -5,9 +5,6 @@
  */
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
-#include <cstdio>
-#include <cstdlib>
-
 #include "Debug.h"
 #include "DisplayContext.h"
 #include "Game.h"
@@ -19,10 +16,8 @@ int main(int argc, char* argv[])
 	(void)argv;
 	
 	Game theGame;
-	theGame.Init(640, 480);
+	theGame.Init();
 	theGame.Start();
-	
-	TRACE("TAMERE");
 
 	return 0;
 }

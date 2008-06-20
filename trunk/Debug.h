@@ -13,7 +13,7 @@
 #	define TRACE(msg)
 #else
 #	include <iostream>
-#	define DEBUG_ASSERT(cond) Debug::Assert(cond, __FILE__, __LINE__)
+#	define DEBUG_ASSERT(cond) Debug::Assert2(cond, #cond, __FILE__, __LINE__)
 #	define DEBUG_ASSERT2(cond, msg) Debug::Assert2(cond, msg, __FILE__, __LINE__)
 #	define TRACE(msg) (std::cout << msg << std::endl)
 

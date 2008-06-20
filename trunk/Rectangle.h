@@ -16,11 +16,12 @@ class Rectangle : public Point
 {
 public:
 				 Rectangle();
-				 Rectangle(Point& position, Size width, Size height);
+				 Rectangle(const Point& position, Size width, Size height);
 				 Rectangle(Coord x, Coord y, Size width, Size height);
 	virtual		~Rectangle();
 	
 	void		ResizeTo(Size width, Size height);
+	
 	void		ResizeBy(Size width, Size height);
 	void		ResizeBy(double xFactor, double yFactor);
 	

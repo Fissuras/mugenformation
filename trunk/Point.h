@@ -19,10 +19,10 @@ public:
 	virtual	~Point();
 
 	void	MoveTo(Coord x, Coord y);
-	void	MoveTo(Point& position);
+	void	MoveTo(const Point& position);
 	
 	void	MoveBy(Coord x, Coord y);
-	void	MoveBy(Point& position);
+	void	MoveBy(const Point& position);
 	
 	Coord	GetX() const	{ return m_X; }
 	Coord	GetY() const	{ return m_Y; }
