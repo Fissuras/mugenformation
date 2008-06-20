@@ -40,7 +40,17 @@ bool KeyboardDevice::IsKeyPressed(Keys key)
 {
 	m_KeyStates = SDL_GetKeyState(NULL);
 	
-	(void)key;
-
+	switch(key)
+	{
+	case UP:
+		return (bool)m_KeyStates[SDLK_UP];
+	case DOWN:
+		return (bool)m_KeyStates[SDLK_DOWN];
+	case LEFT:
+		return (bool)m_KeyStates[SDLK_LEFT];
+	case RIGHT:
+		return (bool)m_KeyStates[SDLK_RIGHT];
+	}
+	
 	return false;
 }

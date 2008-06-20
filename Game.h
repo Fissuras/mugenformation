@@ -8,10 +8,9 @@
 #define GAME_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
-#include <SDL/SDL.h>
-
 #include "DisplayContext.h"
-#include "Types.h"
+#include "KeyboardDevice.h"
+#include "Scene.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Game
@@ -20,11 +19,14 @@ public:
 					 Game();
 	virtual			~Game();
 
-	virtual	bool	Init(Size screenWidth, Size screenHeight);
+	virtual	bool	Init();
 	virtual	void	Start();
 
 protected:
 	DisplayContext	m_DisplayContext;
+	KeyboardDevice	m_KeyboardDevice;
+	
+	ScenePtr		m_spCurrentScene;
 };
 
 #endif // GAME_H

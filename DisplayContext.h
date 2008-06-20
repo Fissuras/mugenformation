@@ -11,6 +11,7 @@
 #include <SDL/SDL.h>
 
 #include "Color.h"
+#include "Image.h"
 #include "Point.h"
 #include "Rectangle.h"
 #include "Types.h"
@@ -22,17 +23,20 @@ public:
 					DisplayContext();
 	virtual			~DisplayContext();
 
-	virtual	void	Init(Size screenWidth, Size screenHeight);
+	virtual	bool	Init(Size screenWidth, Size screenHeight);
 
 	virtual	void	Flip();
 
 	virtual void	SetColor(const Color& color);
+	
+	virtual	void	ClearScreen();
 
 	virtual	void	DrawRectangle(Coord x, Coord y, Size width, Size height, bool filled = true);
-	virtual	void	DrawRectangle(Point& position, Size width, Size height, bool filled = true);
-	virtual	void	DrawRectangle(Rectangle& rectangle, bool filled = true);
+	virtual	void	DrawRectangle(const Point& position, Size width, Size height, bool filled = true);
+	virtual	void	DrawRectangle(const Rectangle& rectangle, bool filled = true);
 
-//	virtual	void	DrawImage(Image& image, Coord x, Coord y);
+	virtual	void	DrawImage(const Image& image);
+	virtual	void	DrawImage(const Image& image, const Rectangle& clippingMask);
 
 private:
 	virtual	void	FillRectangle(Coord x, Coord y, Size width, Size height);

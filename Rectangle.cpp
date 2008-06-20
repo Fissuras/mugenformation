@@ -17,7 +17,7 @@ Rectangle::Rectangle()
 {
 }
 
-Rectangle::Rectangle(Point& position, Size width, Size height)
+Rectangle::Rectangle(const Point& position, Size width, Size height)
 :Point(position)
 ,m_Width(width)
 ,m_Height(height)
