@@ -12,8 +12,7 @@
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Scene::Scene(Game* game)
-:m_pGame(game)
-,m_pPreviousScene(NULL)
+:m_Game(game)
 {
 }
 
@@ -35,12 +34,12 @@ bool Scene::Init()
 	return true;
 }
 
-void Scene::Update()
+void Scene::Update(double deltaTime, double totalTime)
 {
 	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
 	{
 		GameObjectPtr gameObject(*i);
-		gameObject->Update();
+		gameObject->Update(deltaTime, totalTime);
 	}
 }
 

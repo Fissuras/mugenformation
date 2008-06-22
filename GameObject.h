@@ -25,7 +25,7 @@ public:
 	virtual			~GameObject();
 	
 	virtual	bool	Init() = 0;
-	virtual void	Update() = 0;
+	virtual void	Update(double deltaTime, double totalTime) = 0;
 	virtual	void	Render(DisplayContext* displayContext) = 0;
 
 protected:

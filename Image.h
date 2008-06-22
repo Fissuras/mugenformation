@@ -4,6 +4,9 @@
  * @author Francis BISSON
  */
 
+#ifndef IMAGE_H
+#define IMAGE_H
+
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <SDL/SDL.h>
 #include <string>
@@ -29,8 +32,7 @@ public:
 	void			MoveTo(Coord x, Coord y)		{ m_Position.MoveTo(x, y); }
 	void			MoveTo(const Point& position)	{ m_Position.MoveTo(position); }
 		
-	void			MoveBy(Coord x, Coord y)		{ m_Position.MoveBy(x, y); }
-	void			MoveBy(const Point& position)	{ m_Position.MoveBy(position); }
+	void			MoveBy(Size x, Size y)			{ m_Position.MoveBy(x, y); }
 	
 	Size			GetWidth()	const;
 	Size			GetHeight()	const;
@@ -38,8 +40,13 @@ public:
 	Coord			GetX() const					{ return m_Position.GetX(); }
 	Coord			GetY() const					{ return m_Position.GetY(); }
 	Point			GetPosition() const				{ return m_Position; }
+	
+	virtual	void	SetAlpha(Byte alpha);
+	virtual	void	SetAlpha(double alpha);
 
 protected:
 	SDL_Surface*	m_Surface;
 	Point			m_Position;
 };
+
+#endif // IMAGE_H

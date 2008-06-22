@@ -23,6 +23,7 @@ public:
 	void	SetGreen(Byte g)	{ m_Green = g; }
 	void	SetBlue(Byte b)		{ m_Blue = b; }
 	void	SetAlpha(Byte a)	{ m_Alpha = a; }
+	void	SetAlpha(double a);
 
 	Byte	GetRed() const		{ return m_Red; }
 	Byte	GetGreen() const	{ return m_Green; }

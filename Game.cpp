@@ -7,18 +7,21 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <SDL/SDL.h>
 
+#include "Color.h"
 #include "Debug.h"
 #include "DisplayContext.h"
 #include "Game.h"
 #include "KeyboardDevice.h"
 #include "Scene.h"
+#include "SplashScene.h"
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Game::Game()
 :m_DisplayContext()
 ,m_KeyboardDevice()
-,m_spCurrentScene()
+,m_CurrentScene()
+,m_Quit(false)
 {
 }
 
@@ -30,47 +33,78 @@ bool Game::Init()
 {
 	// TODO Load game config
 	
-	bool bRet = true
-		&&	m_DisplayContext.Init(640, 480)
-		&&	m_KeyboardDevice.Init();
+	bool init = true;
+	init = init && m_DisplayContext.Init(640, 480);
+	init = init && m_KeyboardDevice.Init();
+	
+	SDL_WM_SetCaption("Mugen Formation", NULL);
 	
 	// Load initial scene
+	m_CurrentScene.reset( new SplashScene(this) );
+	init = init && m_CurrentScene->Init();
 	
-	return bRet;
+	return init;
 }
 
 void Game::Start()
 {
-	DEBUG_ASSERT(m_spCurrentScene.get() != NULL);
+	DEBUG_ASSERT(m_CurrentScene.get() != NULL);
 	
-	bool done = false;
-	while(!done)
+	Uint32 startTime = SDL_GetTicks();
+	Uint32 lastTime	= startTime;
+	m_Quit = false;
+	
+	while(!m_Quit)
 	{
-		// MANAGE EVENTS
-		SDL_Event event;
-		while(SDL_PollEvent(&event))
-		{
-			switch(event.type)
-			{
-			case SDL_QUIT:
-				done = true;
-				break;
-			}
-		}
+		// CLEAR SCREEN
+		m_DisplayContext.SetColor(Color::Black);
+		m_DisplayContext.ClearScreen();
 		
-		if(!done)
+		// MANAGE EVENTS
+		ManageEvents();
+		
+		// MANAGE INPUT DEVICES
+		m_KeyboardDevice.Update();
+		
+		Uint32 currentTime = SDL_GetTicks();
+		double totalTime = (double)(currentTime - startTime) / 1000.0;
+		double deltaTime = (double)(currentTime - lastTime) / 1000.0;
+		
+		// MANAGE CURRENT SCENE
+		m_CurrentScene->Update(deltaTime, totalTime);
+		
+		// RENDER GAME OBJECTS
+		m_CurrentScene->Render(&m_DisplayContext);
+		
+		// FLIP (SWAP) DISPLAY BUFFERS
+		m_DisplayContext.Flip();
+	}
+}
+
+void Game::ManageEvents()
+{
+	SDL_Event event;
+	while(SDL_PollEvent(&event))
+	{
+		switch(event.type)
 		{
-			// MANAGE INPUT DEVICES
-			m_KeyboardDevice.Update();
-			
-			// MANAGE CURRENT SCENE
-			m_spCurrentScene->Update();
-			
-			// RENDER GAME OBJECTS
-			m_spCurrentScene->Render(&m_DisplayContext);
-			
-			// FLIP (SWAP) DISPLAY BUFFERS
-			m_DisplayContext.Flip();
+		case SDL_QUIT:
+			m_Quit = true;
+			break;
 		}
+	}
+}
+
+void Game::ChangeScene(ScenePtr scene)
+{
+	if(m_CurrentScene)
+	{
+		/**
+		 * TODO Implement scenes stack
+		 * i.e. Game scene -> Pause Menu -> Options Menu -> Back to Pause Menu -> Back to Game
+		 */
+		
+		m_CurrentScene = scene;
+		m_CurrentScene->Init();
 	}
 }

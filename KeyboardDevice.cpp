@@ -24,9 +24,9 @@ KeyboardDevice::~KeyboardDevice()
 
 bool KeyboardDevice::Init()
 {
-	bool bRet = InputDevice::Init();
+	bool init = InputDevice::Init();
 	
-	return bRet;
+	return init;
 }
 
 void KeyboardDevice::Update()

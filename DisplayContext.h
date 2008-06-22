@@ -37,12 +37,18 @@ public:
 
 	virtual	void	DrawImage(const Image& image);
 	virtual	void	DrawImage(const Image& image, const Rectangle& clippingMask);
+	
+	Size			GetWidth() const	{ return m_ScreenWidth; }
+	Size			GetHeight() const	{ return m_ScreenHeight; }
 
 private:
 	virtual	void	FillRectangle(Coord x, Coord y, Size width, Size height);
 	
 	SDL_Surface*	m_Screen;
 	Uint32			m_Color;
+	
+	Size			m_ScreenWidth;
+	Size			m_ScreenHeight;
 };
 
 #endif // DISPLAYCONTEXT_H

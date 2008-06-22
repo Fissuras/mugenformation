@@ -23,10 +23,9 @@ Image::Image(std::string filename)
 :m_Surface(NULL)
 ,m_Position(0, 0)
 {
-	bool ret = Load(filename);
-	(void)ret;
+	bool loaded = Load(filename);
 	
-	DEBUG_ASSERT(ret);
+	DEBUG_ASSERT2(loaded, SDL_GetError());
 }
 
 Image::~Image()
@@ -43,6 +42,9 @@ bool Image::Load(std::string filename)
 	
 	m_Surface = SDL_LoadBMP(filename.c_str());
 	
+	// Enable RLE to improve performance
+	SDL_SetColorKey(m_Surface, SDL_RLEACCEL, 0);
+	
 	return (bool)(m_Surface != NULL);
 }
 
@@ -58,4 +60,19 @@ Size Image::GetHeight() const
 	DEBUG_ASSERT(m_Surface);
 	
 	return (Size)m_Surface->h;
+}
+
+void Image::SetAlpha(Byte alpha)
+{
+	DEBUG_ASSERT(m_Surface);
+	
+	SDL_SetAlpha(m_Surface, SDL_SRCALPHA | SDL_RLEACCEL, alpha);
+}
+
+void Image::SetAlpha(double alpha)
+{
+	DEBUG_ASSERT(m_Surface);
+	DEBUG_ASSERT(alpha >= 0.0 && alpha <= 1.0);
+	
+	SDL_SetAlpha(m_Surface, SDL_SRCALPHA | SDL_RLEACCEL, (Byte)(alpha * 0xff));
 }
