@@ -20,7 +20,6 @@ DisplayContext::DisplayContext()
 ,m_Color(0)
 {
 	int errorCode = SDL_Init(SDL_INIT_VIDEO);
-	(void)errorCode;
 	
 	DEBUG_ASSERT2(errorCode >= 0, SDL_GetError());
 }
@@ -32,7 +31,10 @@ DisplayContext::~DisplayContext()
 
 bool DisplayContext::Init(Size screenWidth, Size screenHeight)
 {
-	m_Screen = SDL_SetVideoMode(screenWidth, screenHeight, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	m_ScreenWidth = screenWidth;
+	m_ScreenHeight = screenHeight;
+	
+	m_Screen = SDL_SetVideoMode(m_ScreenWidth, m_ScreenHeight, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 	
 	DEBUG_ASSERT2(m_Screen, SDL_GetError());
 	
@@ -48,7 +50,7 @@ void DisplayContext::SetColor(const Color& color)
 {
 	DEBUG_ASSERT(m_Screen);
 	
-	m_Color = SDL_MapRGB(m_Screen->format, color.GetRed(), color.GetGreen(), color.GetBlue());
+	m_Color = SDL_MapRGBA(m_Screen->format, color.GetRed(), color.GetGreen(), color.GetBlue(), color.GetAlpha());
 }
 
 void DisplayContext::ClearScreen()

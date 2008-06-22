@@ -17,9 +17,6 @@ class DisplayContext;
 class Game;
 class Scene;
 
-// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
-typedef boost::shared_ptr<Scene>	ScenePtr;
-
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Scene
 {
@@ -30,13 +27,15 @@ public:
 //	virtual	bool	Load();
 	
 	virtual	bool	Init();
-	virtual void	Update();
+	virtual void	Update(double deltaTime, double totalTime);
 	virtual	void	Render(DisplayContext* displayContext);
 	
 protected:
-	Game*			m_pGame;
-	Scene*			m_pPreviousScene;
+	Game*			m_Game;
 	GameObjectList	m_GameObjects;
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Scene>	ScenePtr;
 
 #endif // SCENE_H

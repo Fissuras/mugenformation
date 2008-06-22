@@ -47,3 +47,10 @@ Color::Color(int hexCode, Byte alpha)
 Color::~Color()
 {
 }
+
+void Color::SetAlpha(double alpha)
+{
+	DEBUG_ASSERT(alpha >= 0.0 && alpha <= 1.0);
+	
+	m_Alpha = (Byte)(alpha * 0xff);
+}

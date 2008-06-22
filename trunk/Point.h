@@ -21,8 +21,7 @@ public:
 	void	MoveTo(Coord x, Coord y);
 	void	MoveTo(const Point& position);
 	
-	void	MoveBy(Coord x, Coord y);
-	void	MoveBy(const Point& position);
+	void	MoveBy(Size x, Size y);
 	
 	Coord	GetX() const	{ return m_X; }
 	Coord	GetY() const	{ return m_Y; }

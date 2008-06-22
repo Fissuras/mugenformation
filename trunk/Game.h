@@ -21,12 +21,20 @@ public:
 
 	virtual	bool	Init();
 	virtual	void	Start();
+	
+	virtual	void	ChangeScene(ScenePtr scene);
+	
+	void			Quit() { m_Quit = true; }
 
 protected:
+	virtual	void	ManageEvents();
+	
 	DisplayContext	m_DisplayContext;
 	KeyboardDevice	m_KeyboardDevice;
 	
-	ScenePtr		m_spCurrentScene;
+	ScenePtr		m_CurrentScene;
+	
+	bool			m_Quit;
 };
 
 #endif // GAME_H

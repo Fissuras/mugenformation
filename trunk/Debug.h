@@ -7,9 +7,14 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+// INCLUDES ////////////////////////////////////////////////////////////////////
+#include "Utility.h"
+
+// MACRO DEFINITIONS ///////////////////////////////////////////////////////////
+
 #ifdef NDEBUG
-#	define DEBUG_ASSERT(cond)
-#	define DEBUG_ASSERT2(cond, msg)
+#	define DEBUG_ASSERT(cond) UNUSED((cond))
+#	define DEBUG_ASSERT2(cond, msg) UNUSED((cond))
 #	define TRACE(msg)
 #else
 #	include <iostream>
