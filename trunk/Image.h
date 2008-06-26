@@ -11,6 +11,7 @@
 #include <SDL/SDL.h>
 #include <string>
 
+#include "Palette.h"
 #include "Point.h"
 #include "Types.h"
 
@@ -43,6 +44,8 @@ public:
 	
 	virtual	void	SetAlpha(Byte alpha);
 	virtual	void	SetAlpha(double alpha);
+	
+	virtual	void	SetPalette(const Palette& palette);
 
 protected:
 	SDL_Surface*	m_Surface;

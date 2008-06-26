@@ -29,12 +29,18 @@ DisplayContext::~DisplayContext()
 	SDL_Quit();
 }
 
-bool DisplayContext::Init(Size screenWidth, Size screenHeight)
+bool DisplayContext::Init(Size screenWidth, Size screenHeight, bool fullscreen)
 {
 	m_ScreenWidth = screenWidth;
 	m_ScreenHeight = screenHeight;
 	
-	m_Screen = SDL_SetVideoMode(m_ScreenWidth, m_ScreenHeight, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF;
+	if(fullscreen)
+	{
+		flags |= SDL_FULLSCREEN;
+	}
+	
+	m_Screen = SDL_SetVideoMode(m_ScreenWidth, m_ScreenHeight, 32, flags);
 	
 	DEBUG_ASSERT2(m_Screen, SDL_GetError());
 	
@@ -50,7 +56,7 @@ void DisplayContext::SetColor(const Color& color)
 {
 	DEBUG_ASSERT(m_Screen);
 	
-	m_Color = SDL_MapRGBA(m_Screen->format, color.GetRed(), color.GetGreen(), color.GetBlue(), color.GetAlpha());
+	m_Color = SDL_MapRGB(m_Screen->format, color.GetRed(), color.GetGreen(), color.GetBlue());
 }
 
 void DisplayContext::ClearScreen()

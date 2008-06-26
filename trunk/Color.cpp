@@ -21,36 +21,40 @@ Color::Color()
 :m_Red(0)
 ,m_Green(0)
 ,m_Blue(0)
-,m_Alpha(0xff)
 {
 }
 
-Color::Color(Byte r, Byte g, Byte b, Byte a)
+Color::Color(Byte r, Byte g, Byte b)
 :m_Red(r)
 ,m_Green(g)
 ,m_Blue(b)
-,m_Alpha(a)
 {
 }
 
-Color::Color(int hexCode, Byte alpha)
+Color::Color(int hexCode)
 {
 	Byte mask = 0xff;
 	
 	m_Red	= (Byte)(mask & (hexCode >> 16));
 	m_Green	= (Byte)(mask & (hexCode >> 8));
 	m_Blue	= (Byte)(mask &  hexCode);
-	
-	m_Alpha	= alpha;
 }
 
 Color::~Color()
 {
 }
 
-void Color::SetAlpha(double alpha)
+bool Color::operator== (const Color& color) const
 {
-	DEBUG_ASSERT(alpha >= 0.0 && alpha <= 1.0);
-	
-	m_Alpha = (Byte)(alpha * 0xff);
+	return IsEqual(color);
+}
+
+bool Color::operator!= (const Color& color) const
+{
+	return !IsEqual(color);
+}
+
+bool Color::IsEqual(const Color& color) const
+{
+	return (color.m_Red == m_Red && color.m_Green == m_Green && color.m_Blue == m_Blue);
 }

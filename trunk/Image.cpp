@@ -10,6 +10,7 @@
 
 #include "Debug.h"
 #include "Image.h"
+#include "Palette.h"
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
@@ -75,4 +76,12 @@ void Image::SetAlpha(double alpha)
 	DEBUG_ASSERT(alpha >= 0.0 && alpha <= 1.0);
 	
 	SDL_SetAlpha(m_Surface, SDL_SRCALPHA | SDL_RLEACCEL, (Byte)(alpha * 0xff));
+}
+
+void Image::SetPalette(const Palette& palette)
+{
+	DEBUG_ASSERT(m_Surface);
+	DEBUG_ASSERT2(m_Surface->format->palette, "This method can only be called on a palettized surface.");
+	
+	SDL_SetColors(m_Surface, palette.m_Colors, 0, palette.m_NbColors);
 }

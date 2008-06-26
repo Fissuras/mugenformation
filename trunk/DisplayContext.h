@@ -23,7 +23,7 @@ public:
 					DisplayContext();
 	virtual			~DisplayContext();
 
-	virtual	bool	Init(Size screenWidth, Size screenHeight);
+	virtual	bool	Init(Size screenWidth, Size screenHeight, bool fullscreen = false);
 
 	virtual	void	Flip();
 
