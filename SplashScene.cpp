@@ -13,6 +13,7 @@
 #include "Rectangle.h"
 #include "Scene.h"
 #include "SplashScene.h"
+#include "Types.h"
 #include "Utility.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
@@ -20,8 +21,9 @@ SplashScene::SplashScene(Game* game)
 :Scene(game)
 ,m_Splash()
 ,m_FadeOutStart(3.5)
-,m_FadeOutDuration(0.5)
-,m_Alpha(1.0)
+,m_FadeOutDuration(0.25)
+,m_FadeOutPalette(2)
+,m_PaletteChanged(false)
 {
 }
 
@@ -39,6 +41,9 @@ bool SplashScene::Init()
 	m_Splash.MoveTo(0, 0);
 	
 	m_StartTime = -1.0;
+
+	m_FadeOutPalette.SetColor(0, Color::Black);
+	m_FadeOutPalette.SetColor(1, Color::White);
 	
 	return init;
 }
@@ -46,42 +51,54 @@ bool SplashScene::Init()
 void SplashScene::Update(double deltaTime, double totalTime)
 {
 	UNUSED(deltaTime);
+	
 	if(m_StartTime == -1.0)
 	{
 		m_StartTime = totalTime;
 	}
 	
-	double sceneTotalTime = (totalTime - m_StartTime); 
+	double sceneTotalTime = (totalTime - m_StartTime);
+	
+	Color newColor;
 	
 	if(sceneTotalTime < m_FadeOutStart)
 	{
-		m_Alpha = 1.0;
+		newColor = Color::White;
 	}
 	else
 	{
 		double fadeOutTime = (sceneTotalTime - m_FadeOutStart);
 		if(fadeOutTime >= m_FadeOutDuration)
 		{
-			m_Alpha = 0.0;
+			newColor = Color::Black;
 		}
 		else
 		{
-			m_Alpha = 1.0 - (fadeOutTime / m_FadeOutDuration);
+			double alpha = fadeOutTime / m_FadeOutDuration;
+			Byte shade = (Byte)(0xFF - (Byte)(0xFF * alpha));
+			newColor = Color(shade, shade, shade);
 		}
+	}
+	
+	if(newColor != m_FadeOutPalette.GetColor(1))
+	{
+		m_FadeOutPalette.SetColor(1, newColor);
+		m_PaletteChanged = true;
+	}
+	else
+	{
+		m_PaletteChanged = false;
 	}
 }
 
 void SplashScene::Render(DisplayContext* displayContext)
 {
-	if(m_Alpha > 0.0)
+	if(m_PaletteChanged)
 	{
-		if(m_Alpha < 1.0)
-		{
-			m_Splash.SetAlpha(m_Alpha);
-		}
-		
-		displayContext->DrawImage(m_Splash);
+		m_Splash.SetPalette(m_FadeOutPalette);
 	}
+	
+	displayContext->DrawImage(m_Splash);
 	
 	Scene::Render(displayContext);
 }

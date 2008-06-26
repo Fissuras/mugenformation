@@ -9,6 +9,7 @@
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "Image.h"
+#include "Palette.h"
 #include "Scene.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
@@ -27,7 +28,8 @@ protected:
 	double			m_StartTime;
 	double			m_FadeOutStart;
 	double			m_FadeOutDuration;
-	double			m_Alpha;
+	Palette			m_FadeOutPalette;
+	bool			m_PaletteChanged;
 };
 
 #endif // TESTSCENE_H
