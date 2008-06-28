@@ -13,7 +13,8 @@ enum Keys
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	RETURN
 };
 
 #endif // KEYS_H

@@ -12,11 +12,7 @@
 #include <string>
 
 #include "Palette.h"
-#include "Point.h"
 #include "Types.h"
-
-// FORWARD DECLARATIONS ////////////////////////////////////////////////////////
-class DisplayContext;
 
 // CLASS DEFINITION/////////////////////////////////////////////////////////////
 class Image
@@ -26,30 +22,26 @@ class Image
 public:
 					 Image();
 					 Image(std::string filename);
+					 Image(const Image& image);
 	virtual			~Image();
 	
-	virtual	bool	Load(std::string filename);
+	Image&			operator= (const Image& image);
 	
-	void			MoveTo(Coord x, Coord y)		{ m_Position.MoveTo(x, y); }
-	void			MoveTo(const Point& position)	{ m_Position.MoveTo(position); }
-		
-	void			MoveBy(Size x, Size y)			{ m_Position.MoveBy(x, y); }
+	virtual	bool	Load(std::string filename);
+	virtual	bool	IsLoaded() const				{ return m_Surface != NULL; }
 	
 	Size			GetWidth()	const;
 	Size			GetHeight()	const;
-	
-	Coord			GetX() const					{ return m_Position.GetX(); }
-	Coord			GetY() const					{ return m_Position.GetY(); }
-	Point			GetPosition() const				{ return m_Position; }
 	
 	virtual	void	SetAlpha(Byte alpha);
 	virtual	void	SetAlpha(double alpha);
 	
 	virtual	void	SetPalette(const Palette& palette);
+	virtual	void	SetTransparencyColor(const Color& color);
 
 protected:
 	SDL_Surface*	m_Surface;
-	Point			m_Position;
+	std::string		m_Filename;
 };
 
 #endif // IMAGE_H

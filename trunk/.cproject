@@ -696,7 +696,7 @@
 <listOptionValue builtIn="false" value="SDL"/>
 </option>
 <option id="gnu.cpp.link.option.paths.1663429910" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
-<option id="gnu.cpp.link.option.flags.599435808" name="Linker flags" superClass="gnu.cpp.link.option.flags"/>
+<option id="gnu.cpp.link.option.flags.599435808" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-mwindows" valueType="string"/>
 <option id="gnu.cpp.link.option.other.93344571" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other"/>
 <option id="gnu.cpp.link.option.userobjs.386056506" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
 <option id="gnu.cpp.link.option.shared.1808301684" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared"/>

@@ -10,6 +10,8 @@
 #include "DisplayContext.h"
 #include "Game.h"
 #include "Image.h"
+#include "MainMenu.h"
+#include "Point.h"
 #include "Rectangle.h"
 #include "Scene.h"
 #include "SplashScene.h"
@@ -24,6 +26,7 @@ SplashScene::SplashScene(Game* game)
 ,m_FadeOutDuration(0.25)
 ,m_FadeOutPalette(2)
 ,m_PaletteChanged(false)
+,m_SceneDisplayDuration(4.0)
 {
 }
 
@@ -35,10 +38,7 @@ bool SplashScene::Init()
 {
 	bool init = Scene::Init();
 	
-	bool loaded = m_Splash.Load("Splash/mugen2clr.bmp");
-	DEBUG_ASSERT(loaded);
-	
-	m_Splash.MoveTo(0, 0);
+	init = init && m_Splash.Load("Splash/mugen2clr.bmp");
 	
 	m_StartTime = -1.0;
 
@@ -50,7 +50,7 @@ bool SplashScene::Init()
 
 void SplashScene::Update(double deltaTime, double totalTime)
 {
-	UNUSED(deltaTime);
+	Scene::Update(deltaTime, totalTime);
 	
 	if(m_StartTime == -1.0)
 	{
@@ -58,11 +58,18 @@ void SplashScene::Update(double deltaTime, double totalTime)
 	}
 	
 	double sceneTotalTime = (totalTime - m_StartTime);
+	if(sceneTotalTime >= m_SceneDisplayDuration)
+	{
+		m_Game->ChangeScene( ScenePtr(new MainMenu(m_Game) ));
+		m_PaletteChanged = false;
+		return;
+	}
 	
 	Color newColor;
 	
 	if(sceneTotalTime < m_FadeOutStart)
 	{
+		// Fade out not yet started
 		newColor = Color::White;
 	}
 	else
@@ -70,10 +77,12 @@ void SplashScene::Update(double deltaTime, double totalTime)
 		double fadeOutTime = (sceneTotalTime - m_FadeOutStart);
 		if(fadeOutTime >= m_FadeOutDuration)
 		{
+			// Fade out finished
 			newColor = Color::Black;
 		}
 		else
 		{
+			// Fading out
 			double alpha = fadeOutTime / m_FadeOutDuration;
 			Byte shade = (Byte)(0xFF - (Byte)(0xFF * alpha));
 			newColor = Color(shade, shade, shade);
@@ -98,7 +107,7 @@ void SplashScene::Render(DisplayContext* displayContext)
 		m_Splash.SetPalette(m_FadeOutPalette);
 	}
 	
-	displayContext->DrawImage(m_Splash);
+	displayContext->DrawImage(m_Splash, Point::Zero);
 	
 	Scene::Render(displayContext);
 }

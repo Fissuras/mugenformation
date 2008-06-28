@@ -23,10 +23,14 @@ public:
 	virtual	bool	Init();
 	virtual	void	Update();
 	
-	virtual bool	IsKeyPressed(Keys key);
+	virtual bool	IsKeyPressed(Keys key) const;
+	virtual	bool	IsKeyTriggered(Keys key) const;
 
 protected:
+	virtual	bool	IsKeyPressedImpl(Keys key, bool triggered) const;
+	
 	Uint8*			m_KeyStates;
+	Uint8*			m_PreviousKeyStates;
 };
 
 #endif // KEYBOARDDEVICE_H

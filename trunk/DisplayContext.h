@@ -14,6 +14,7 @@
 #include "Image.h"
 #include "Point.h"
 #include "Rectangle.h"
+#include "Text.h"
 #include "Types.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
@@ -35,8 +36,10 @@ public:
 	virtual	void	DrawRectangle(const Point& position, Size width, Size height, bool filled = true);
 	virtual	void	DrawRectangle(const Rectangle& rectangle, bool filled = true);
 
-	virtual	void	DrawImage(const Image& image);
-	virtual	void	DrawImage(const Image& image, const Rectangle& clippingMask);
+	virtual	void	DrawImage(const Image& image, const Point& position);
+	virtual	void	DrawImage(const Image& image, const Point& position, const Rectangle& clippingMask);
+	
+	virtual	void	DrawText(const Text& text, const Point& position);
 	
 	Size			GetWidth() const	{ return m_ScreenWidth; }
 	Size			GetHeight() const	{ return m_ScreenHeight; }

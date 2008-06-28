@@ -8,6 +8,9 @@
 #include "Point.h"
 #include "Types.h"
 
+// STATIC MEMBERS INITIALIZATION ///////////////////////////////////////////////
+const Point Point::Zero(0, 0);
+
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Point::Point()
 :m_X(0)

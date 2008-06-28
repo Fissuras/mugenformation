@@ -11,21 +11,21 @@
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Rectangle::Rectangle()
-:Point()
+:m_Position(0, 0)
 ,m_Width(0)
 ,m_Height(0)
 {
 }
 
 Rectangle::Rectangle(const Point& position, Size width, Size height)
-:Point(position)
+:m_Position(position)
 ,m_Width(width)
 ,m_Height(height)
 {
 }
 
 Rectangle::Rectangle(Coord x, Coord y, Size width, Size height)
-:Point(x, y)
+:m_Position(x, y)
 ,m_Width(width)
 ,m_Height(height)
 {
@@ -51,10 +51,4 @@ void Rectangle::ResizeBy(double xFactor, double yFactor)
 {
 	m_Width  = (Size)(m_Width  * xFactor);
 	m_Height = (Size)(m_Height * yFactor);
-}
-
-Point Rectangle::GetPosition() const
-{
-	Point position(m_X, m_Y);
-	return position;
 }

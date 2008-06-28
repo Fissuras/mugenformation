@@ -59,12 +59,12 @@ void Game::Start()
 		// CLEAR SCREEN
 		m_DisplayContext.SetColor(Color::Black);
 		m_DisplayContext.ClearScreen();
+
+		// MANAGE INPUT DEVICES
+		m_KeyboardDevice.Update();
 		
 		// MANAGE EVENTS
 		ManageEvents();
-		
-		// MANAGE INPUT DEVICES
-		m_KeyboardDevice.Update();
 		
 		Uint32 currentTime = SDL_GetTicks();
 		double totalTime = (double)(currentTime - startTime) / 1000.0;
