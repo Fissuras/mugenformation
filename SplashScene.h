@@ -30,6 +30,8 @@ protected:
 	double			m_FadeOutDuration;
 	Palette			m_FadeOutPalette;
 	bool			m_PaletteChanged;
+	
+	double			m_SceneDisplayDuration;
 };
 
 #endif // TESTSCENE_H

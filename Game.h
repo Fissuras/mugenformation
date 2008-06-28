@@ -24,7 +24,9 @@ public:
 	
 	virtual	void	ChangeScene(ScenePtr scene);
 	
-	void			Quit() { m_Quit = true; }
+	void			Quit()	{ m_Quit = true; }
+	
+	const KeyboardDevice&	GetKeyboardDevice() const	{ return m_KeyboardDevice; }
 
 protected:
 	virtual	void	ManageEvents();

@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "Utility.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Scene::Scene(Game* game)
@@ -36,18 +37,23 @@ bool Scene::Init()
 
 void Scene::Update(double deltaTime, double totalTime)
 {
-	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
-	{
-		GameObjectPtr gameObject(*i);
-		gameObject->Update(deltaTime, totalTime);
-	}
+	UNUSED(deltaTime);
+	UNUSED(totalTime);
+	
+//	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
+//	{
+//		GameObjectPtr gameObject(*i);
+//		gameObject->Update(deltaTime, totalTime);
+//	}
 }
 
 void Scene::Render(DisplayContext* displayContext)
 {
-	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
-	{
-		GameObjectPtr gameObject(*i);
-		gameObject->Render(displayContext);
-	}
+	UNUSED(displayContext);
+	
+//	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
+//	{
+//		GameObjectPtr gameObject(*i);
+//		gameObject->Render(displayContext);
+//	}
 }

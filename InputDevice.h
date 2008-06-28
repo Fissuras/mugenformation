@@ -20,7 +20,8 @@ public:
 	virtual	bool	Init();
 	virtual	void	Update();
 	
-	virtual	bool	IsKeyPressed(Keys key) = 0;
+	virtual	bool	IsKeyPressed(Keys key) const = 0;
+	virtual	bool	IsKeyTriggered(Keys key) const = 0;
 };
 
 #endif // INPUTDEVICE_H

@@ -5,13 +5,16 @@
  */
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <string>
 #include <SDL/SDL.h>
 
 #include "Color.h"
 #include "Debug.h"
 #include "DisplayContext.h"
+#include "Font.h"
 #include "Point.h"
 #include "Rectangle.h"
+#include "Text.h"
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
@@ -19,9 +22,10 @@ DisplayContext::DisplayContext()
 :m_Screen(NULL)
 ,m_Color(0)
 {
-	int errorCode = SDL_Init(SDL_INIT_VIDEO);
-	
-	DEBUG_ASSERT2(errorCode >= 0, SDL_GetError());
+	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		DEBUG_ASSERT2(false, SDL_GetError());
+	}
 }
 
 DisplayContext::~DisplayContext()
@@ -153,26 +157,26 @@ void DisplayContext::FillRectangle(Coord x, Coord y, Size width, Size height)
 	SDL_FillRect(m_Screen, &rect, m_Color);
 }
 
-void DisplayContext::DrawImage(const Image& image)
+void DisplayContext::DrawImage(const Image& image, const Point& position)
 {
 	DEBUG_ASSERT(m_Screen);
 	
 	// Blit whole image to screen
 	
 	SDL_Rect destination;
-	destination.x = image.GetX();
-	destination.y = image.GetY();
+	destination.x = position.GetX();
+	destination.y = position.GetY();
 	
 	SDL_BlitSurface(image.m_Surface, NULL, m_Screen, &destination); 
 }
 
-void DisplayContext::DrawImage(const Image& image, const Rectangle& clippingMask)
+void DisplayContext::DrawImage(const Image& image, const Point& position, const Rectangle& clippingMask)
 {
 	DEBUG_ASSERT(m_Screen);
 	
 	SDL_Rect destination;
-	destination.x = image.GetX();
-	destination.y = image.GetY();
+	destination.x = position.GetX();
+	destination.y = position.GetY();
 	
 	SDL_Rect source;
 	source.x = clippingMask.GetX();
@@ -181,4 +185,32 @@ void DisplayContext::DrawImage(const Image& image, const Rectangle& clippingMask
 	source.h = clippingMask.GetHeight();
 	
 	SDL_BlitSurface(image.m_Surface, &source, m_Screen, &destination);
+}
+
+void DisplayContext::DrawText(const Text& text, const Point& position)
+{
+	DEBUG_ASSERT(m_Screen);
+	
+	Rectangle mask;
+	Point charPosition(position);
+	
+	Size charWidth = text.m_Font->GetCharacterWidth();
+	Size charHeight = text.m_Font->GetCharacterHeight();
+	
+	for(Uint32 i=0; i<text.m_String.length(); ++i)
+	{
+		char character = text.m_String[i];
+		
+		if(character != ' ')
+		{
+			DEBUG_ASSERT(character >= '!' && character <= '~');
+			// TODO Get character range from font's config file
+			mask.MoveTo((Coord)((character - '!') * text.m_Font->GetCharacterWidth()), 0);
+			mask.ResizeTo(charWidth, charHeight);
+		
+			DrawImage(text.m_Font->m_FontImage, charPosition, mask);
+		}
+		
+		charPosition.MoveBy(charWidth, 0);
+	}
 }

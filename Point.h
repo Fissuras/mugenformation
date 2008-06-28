@@ -25,6 +25,8 @@ public:
 	
 	Coord	GetX() const	{ return m_X; }
 	Coord	GetY() const	{ return m_Y; }
+	
+	static const Point	Zero;
 
 protected:
 	Coord	m_X;
