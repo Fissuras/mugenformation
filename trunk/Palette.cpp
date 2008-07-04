@@ -39,11 +39,33 @@ Palette::Palette(Byte nbColors, Color* colors)
 	}
 }
 
+Palette::Palette(const Palette& palette)
+{
+	m_NbColors = palette.m_NbColors;
+	m_Colors = new SDL_Color[m_NbColors];
+	for(Byte i=0; i<m_NbColors; ++i)
+	{
+		m_Colors[i] = palette.m_Colors[i];
+	}
+}
+
 Palette::~Palette()
 {
 	delete[] m_Colors;
 }
+
+Palette& Palette::operator= (const Palette& palette)
+{
+	m_NbColors = palette.m_NbColors;
+	m_Colors = new SDL_Color[m_NbColors];
+	for(Byte i=0; i<m_NbColors; ++i)
+	{
+		m_Colors[i] = palette.m_Colors[i];
+	}
 	
+	return *this;
+}
+
 Color Palette::GetColor(Byte index)
 {
 	DEBUG_ASSERT(m_Colors);

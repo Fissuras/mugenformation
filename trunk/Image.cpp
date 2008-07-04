@@ -103,12 +103,12 @@ void Image::SetAlpha(double alpha)
 	SDL_SetAlpha(m_Surface, SDL_SRCALPHA | SDL_RLEACCEL, (Byte)(alpha * 0xff));
 }
 
-void Image::SetPalette(const Palette& palette)
+void Image::SetPalette(PalettePtr palette)
 {
 	DEBUG_ASSERT(IsLoaded());
 	DEBUG_ASSERT2(m_Surface->format->palette, "This method can only be called on a palettized surface.");
 	
-	SDL_SetColors(m_Surface, palette.m_Colors, 0, palette.m_NbColors);
+	SDL_SetColors(m_Surface, palette->m_Colors, 0, palette->GetNbColors());
 }
 
 void Image::SetTransparencyColor(const Color& color)

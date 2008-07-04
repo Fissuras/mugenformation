@@ -8,13 +8,11 @@
 #define PALETTE_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <boost/shared_ptr.hpp>
 #include <SDL/SDL.h>
 
 #include "Color.h"
 #include "Types.h"
-
-// FORWARD DECLARATIONS ////////////////////////////////////////////////////////
-class Image;
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Palette
@@ -25,10 +23,14 @@ public:
 					 Palette();
 					 Palette(Byte nbColors);
 					 Palette(Byte nbColors, Color* colors);
+					 Palette(const Palette& palette);
 	virtual			~Palette();
+	
+	virtual	Palette& operator= (const Palette& palette);
 	
 	virtual Color	GetColor(Byte index);
 	virtual	void	SetColor(Byte index, const Color& color);
+	virtual	Byte	GetNbColors() const	{ return m_NbColors; }
 
 protected:
 	Byte			m_NbColors;
@@ -37,5 +39,8 @@ protected:
 	// changing an image's palette
 	SDL_Color*		m_Colors; 
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Palette>	PalettePtr;
 
 #endif // PALETTE_H

@@ -6,27 +6,21 @@
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "Color.h"
-#include "Debug.h"
 #include "DisplayContext.h"
 #include "Game.h"
 #include "Image.h"
+#include "KeyFrame.hpp"
 #include "MainMenu.h"
+#include "Palette.h"
 #include "Point.h"
-#include "Rectangle.h"
 #include "Scene.h"
 #include "SplashScene.h"
-#include "Types.h"
-#include "Utility.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 SplashScene::SplashScene(Game* game)
 :Scene(game)
-,m_Splash()
-,m_FadeOutStart(3.5)
-,m_FadeOutDuration(0.25)
-,m_FadeOutPalette(2)
-,m_PaletteChanged(false)
-,m_SceneDisplayDuration(4.0)
+,m_Splash( new Image("Splash/mugen2clr.bmp") )
+,m_FadeOutAnim( m_Splash )
 {
 }
 
@@ -38,12 +32,24 @@ bool SplashScene::Init()
 {
 	bool init = Scene::Init();
 	
-	init = init && m_Splash.Load("Splash/mugen2clr.bmp");
+	PalettePtr kf0Palette( new Palette(2) );
+	kf0Palette->SetColor(0, Color::Black);
+	kf0Palette->SetColor(1, Color::White);
+	KeyFrame<PalettePtr> kf0(3.5, true, kf0Palette);
 	
-	m_StartTime = -1.0;
-
-	m_FadeOutPalette.SetColor(0, Color::Black);
-	m_FadeOutPalette.SetColor(1, Color::White);
+	PalettePtr kf1Palette( new Palette(2) );
+	kf1Palette->SetColor(0, Color::Black);
+	kf1Palette->SetColor(1, Color::Black);
+	KeyFrame<PalettePtr> kf1(3.75, false, kf1Palette);
+	
+	// Same palette as KeyFrame1
+	KeyFrame<PalettePtr> kf2(4.0, false, kf1Palette);
+	
+	m_FadeOutAnim.AddKeyFrame(kf0);
+	m_FadeOutAnim.AddKeyFrame(kf1);
+	m_FadeOutAnim.AddKeyFrame(kf2);
+	
+	m_FadeOutAnim.Start();
 	
 	return init;
 }
@@ -52,62 +58,17 @@ void SplashScene::Update(double deltaTime, double totalTime)
 {
 	Scene::Update(deltaTime, totalTime);
 	
-	if(m_StartTime == -1.0)
-	{
-		m_StartTime = totalTime;
-	}
+	m_FadeOutAnim.Update(deltaTime, totalTime);
 	
-	double sceneTotalTime = (totalTime - m_StartTime);
-	if(sceneTotalTime >= m_SceneDisplayDuration)
+	if(m_FadeOutAnim.IsFinished())
 	{
-		m_Game->ChangeScene( ScenePtr(new MainMenu(m_Game) ));
-		m_PaletteChanged = false;
-		return;
-	}
-	
-	Color newColor;
-	
-	if(sceneTotalTime < m_FadeOutStart)
-	{
-		// Fade out not yet started
-		newColor = Color::White;
-	}
-	else
-	{
-		double fadeOutTime = (sceneTotalTime - m_FadeOutStart);
-		if(fadeOutTime >= m_FadeOutDuration)
-		{
-			// Fade out finished
-			newColor = Color::Black;
-		}
-		else
-		{
-			// Fading out
-			double alpha = fadeOutTime / m_FadeOutDuration;
-			Byte shade = (Byte)(0xFF - (Byte)(0xFF * alpha));
-			newColor = Color(shade, shade, shade);
-		}
-	}
-	
-	if(newColor != m_FadeOutPalette.GetColor(1))
-	{
-		m_FadeOutPalette.SetColor(1, newColor);
-		m_PaletteChanged = true;
-	}
-	else
-	{
-		m_PaletteChanged = false;
+		m_Game->ChangeScene( ScenePtr( new MainMenu(m_Game) ) );
 	}
 }
 
 void SplashScene::Render(DisplayContext* displayContext)
 {
-	if(m_PaletteChanged)
-	{
-		m_Splash.SetPalette(m_FadeOutPalette);
-	}
-	
-	displayContext->DrawImage(m_Splash, Point::Zero);
-	
 	Scene::Render(displayContext);
+	
+	displayContext->DrawImage(*m_Splash, Point::Zero);
 }

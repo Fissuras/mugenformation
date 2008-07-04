@@ -8,13 +8,14 @@
 #define IMAGE_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
-#include <SDL/SDL.h>
+#include <boost/shared_ptr.hpp>
 #include <string>
+#include <SDL/SDL.h>
 
 #include "Palette.h"
 #include "Types.h"
 
-// CLASS DEFINITION/////////////////////////////////////////////////////////////
+// CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Image
 {
 	friend class	DisplayContext;
@@ -36,12 +37,15 @@ public:
 	virtual	void	SetAlpha(Byte alpha);
 	virtual	void	SetAlpha(double alpha);
 	
-	virtual	void	SetPalette(const Palette& palette);
+	virtual	void	SetPalette(PalettePtr palette);
 	virtual	void	SetTransparencyColor(const Color& color);
 
 protected:
 	SDL_Surface*	m_Surface;
 	std::string		m_Filename;
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Image>	ImagePtr;
 
 #endif // IMAGE_H
