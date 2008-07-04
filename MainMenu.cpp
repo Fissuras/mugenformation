@@ -19,8 +19,8 @@
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 MainMenu::MainMenu(Game* game)
 :Scene(game)
-,m_Font("Fonts/dejavu.bmp", Color::White)
-,m_FocusText("+", &m_Font)
+,m_Font( new Font("Fonts/dejavu.bmp", Color::White) )
+,m_FocusText("+", m_Font)
 ,m_FocusIndex(0)
 ,m_VerticalRect(316, 0, 120, 480)
 ,m_HorizontalRect(0, 155, 640, 60)
@@ -44,7 +44,7 @@ bool MainMenu::Init()
 	
 	for(int i=0; i<ITEM_QTY; ++i)
 	{
-		m_MenuElements[i].SetFont(&m_Font);
+		m_MenuElements[i].SetFont(m_Font);
 		m_MenuElements[i].SetText(strings[i]);
 	}
 	m_Positions[ITEM_PLAY_GAME	].MoveTo( 70, 245);
@@ -60,7 +60,7 @@ void MainMenu::Update(double deltaTime, double totalTime)
 	
 	if(m_Game->GetKeyboardDevice().IsKeyTriggered(UP))
 	{
-		m_FocusIndex = (m_FocusIndex == 0 ? ITEM_QTY : m_FocusIndex) - 1; 
+		m_FocusIndex = (m_FocusIndex == 0 ? ITEM_QTY : m_FocusIndex) - 1;
 	}
 	if(m_Game->GetKeyboardDevice().IsKeyTriggered(DOWN))
 	{

@@ -36,7 +36,10 @@ protected:
 	//Color			m_Color;
 	Size			m_CharacterWidth;
 	Size			m_CharacterHeight;
-	Palette			m_Palette;
+	PalettePtr		m_Palette;
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Font>	FontPtr;
 
 #endif // FONT_H

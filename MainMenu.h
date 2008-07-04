@@ -39,7 +39,7 @@ protected:
 		ITEM_QTY
 	};
 	
-	Font			m_Font;
+	FontPtr			m_Font;
 	Text			m_MenuElements[ITEM_QTY];
 	Point			m_Positions[ITEM_QTY];
 	Text			m_FocusText;

@@ -21,12 +21,12 @@ Text::Text(std::string text)
 {
 }
 
-Text::Text(Font* font)
+Text::Text(FontPtr font)
 :m_Font(font)
 {
 }
 
-Text::Text(std::string text, Font* font)
+Text::Text(std::string text, FontPtr font)
 :m_String(text)
 ,m_Font(font)
 {
@@ -36,7 +36,7 @@ Text::~Text()
 {
 }
 
-void Text::SetFont(Font* font)
+void Text::SetFont(FontPtr font)
 {
 	m_Font = font;
 }

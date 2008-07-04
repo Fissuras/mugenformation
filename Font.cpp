@@ -18,14 +18,14 @@
 Font::Font()
 :m_CharacterWidth(0)
 ,m_CharacterHeight(0)
-,m_Palette(2)
+,m_Palette( new Palette(2) )
 {
 }
 
 Font::Font(std::string filename, const Color& color)
 :m_CharacterWidth(0)
 ,m_CharacterHeight(0)
-,m_Palette(2)
+,m_Palette( new Palette(2) )
 {
 	Load(filename);
 	SetColor(color);
@@ -56,8 +56,8 @@ void Font::SetColor(const Color& color)
 	
 	Color transparency(0xff, 0x00, 0xff);
 	
-	m_Palette.SetColor(0, color);
-	m_Palette.SetColor(1, transparency);
+	m_Palette->SetColor(0, color);
+	m_Palette->SetColor(1, transparency);
 	
 	m_FontImage.SetPalette(m_Palette);
 	m_FontImage.SetTransparencyColor(transparency);

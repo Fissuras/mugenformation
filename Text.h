@@ -10,10 +10,8 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <string>
 
+#include "Font.h"
 #include "Types.h"
-
-// FORWARD DECLARATIONS ////////////////////////////////////////////////////////
-class Font;
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Text
@@ -23,11 +21,11 @@ class Text
 public:
 					 Text();
 					 Text(std::string text);
-					 Text(Font* font);
-					 Text(std::string text, Font* font);
+					 Text(FontPtr font);
+					 Text(std::string text, FontPtr font);
 	virtual			~Text();
 	
-	virtual	void	SetFont(Font* font);
+	virtual	void	SetFont(FontPtr font);
 	virtual	void	SetText(std::string text);
 	
 	Size			GetTextWidth() const;
@@ -35,7 +33,7 @@ public:
 	
 protected:
 	std::string		m_String;
-	Font*			m_Font;
+	FontPtr			m_Font;
 };
 
 #endif // TEXT_H
