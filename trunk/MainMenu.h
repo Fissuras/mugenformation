@@ -12,7 +12,9 @@
 #include "Point.h"
 #include "Rectangle.h"
 #include "Scene.h"
+#include "ShapeAnimation.h"
 #include "Text.h"
+#include "VisibilityAnimation.h"
 
 // FORWARD DECLARATIONS ////////////////////////////////////////////////////////
 class DisplayContext;
@@ -45,8 +47,13 @@ protected:
 	Text			m_FocusText;
 	int				m_FocusIndex;
 	
-	Rectangle		m_VerticalRect;
-	Rectangle		m_HorizontalRect;
+	RectanglePtr	m_VerticalRect;
+	RectanglePtr	m_HorizontalRect;
+	RectanglePtr	m_BlinkRect;
+	
+	ShapeAnimation	m_VerticalRectAnim;
+	ShapeAnimation	m_HorizontalRectAnim;
+	VisibilityAnimation	m_BlinkAnim;
 };
 
 #endif // FONT_H

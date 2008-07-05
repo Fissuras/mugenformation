@@ -26,16 +26,17 @@ public:
 						 Animation();
 	virtual				~Animation();
 	
-	void				AddKeyFrame(const KeyFrameType& keyFrame);
+	void				AddKeyFrame(double time, bool blended, const ValueType& value);
 	
 	void				Start();
 	void				Update(double deltaTime, double totalTime);
 	
-	bool				IsFinished() const { return m_Finished; }
+	bool				IsStarted() const	{ return m_Started; }
+	bool				IsFinished() const	{ return IsStarted() && m_Finished; }
 
 protected:
 	virtual	void		SetValue(const ValueType& value) = 0;
-	virtual	ValueType	BlendValues(const KeyFrameType& current, const KeyFrameType& next, double percentage) = 0;
+	virtual	ValueType	BlendValues(const ValueType& current, const ValueType& next, double percentage) = 0;
 	
 	KeyFrameList		m_KeyFrames;
 	
@@ -60,14 +61,16 @@ Animation<ValueType>::~Animation()
 }
 
 template<class ValueType>
-void Animation<ValueType>::AddKeyFrame(const KeyFrameType& keyFrame)
+void Animation<ValueType>::AddKeyFrame(double time, bool blended, const ValueType& value)
 {
 #ifndef NDEBUG
 	if(!m_KeyFrames.empty())
 	{
-		DEBUG_ASSERT(m_KeyFrames.back().GetTime() <= keyFrame.GetTime());
+		DEBUG_ASSERT(m_KeyFrames.back().GetTime() <= time);
 	}
 #endif
+	
+	KeyFrameType keyFrame(time, blended, value);
 	
 	m_KeyFrames.push_back(keyFrame);
 }
@@ -75,7 +78,6 @@ void Animation<ValueType>::AddKeyFrame(const KeyFrameType& keyFrame)
 template<class ValueType>
 void Animation<ValueType>::Start()
 {
-	DEBUG_ASSERT(!m_Started);
 	DEBUG_ASSERT(!m_KeyFrames.empty());
 	
 	m_Started = true;
@@ -116,10 +118,12 @@ void Animation<ValueType>::Update(double deltaTime, double totalTime)
 			else if(currentFrame.IsBlended())
 			{
 				double frameTotalTime = nextFrame.GetTime() - currentFrame.GetTime();
-				double frameTime = totalTime - currentFrame.GetTime(); 
+				double frameTime = animTotalTime - currentFrame.GetTime(); 
 				double percentage = frameTime / frameTotalTime;
 				
-				ValueType value = BlendValues(currentFrame, nextFrame, percentage);
+				DEBUG_ASSERT(percentage >= 0.0 && percentage <= 1.0);
+				
+				ValueType value = BlendValues(currentFrame.GetValue(), nextFrame.GetValue(), percentage);
 				SetValue(value);
 			}
 			else
@@ -127,6 +131,13 @@ void Animation<ValueType>::Update(double deltaTime, double totalTime)
 				SetValue(currentFrame.GetValue());
 			}
 		}
+	}
+	else if(IsFinished() && !m_KeyFrames.empty())
+	{
+		KeyFrameType lastFrame = m_KeyFrames.back();
+		SetValue(lastFrame.GetValue());
+		
+		m_KeyFrames.pop_front();
 	}
 }
 

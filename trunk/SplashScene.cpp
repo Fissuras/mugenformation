@@ -9,7 +9,6 @@
 #include "DisplayContext.h"
 #include "Game.h"
 #include "Image.h"
-#include "KeyFrame.hpp"
 #include "MainMenu.h"
 #include "Palette.h"
 #include "Point.h"
@@ -35,19 +34,14 @@ bool SplashScene::Init()
 	PalettePtr kf0Palette( new Palette(2) );
 	kf0Palette->SetColor(0, Color::Black);
 	kf0Palette->SetColor(1, Color::White);
-	KeyFrame<PalettePtr> kf0(3.5, true, kf0Palette);
 	
 	PalettePtr kf1Palette( new Palette(2) );
 	kf1Palette->SetColor(0, Color::Black);
 	kf1Palette->SetColor(1, Color::Black);
-	KeyFrame<PalettePtr> kf1(3.75, false, kf1Palette);
 	
-	// Same palette as KeyFrame1
-	KeyFrame<PalettePtr> kf2(4.0, false, kf1Palette);
-	
-	m_FadeOutAnim.AddKeyFrame(kf0);
-	m_FadeOutAnim.AddKeyFrame(kf1);
-	m_FadeOutAnim.AddKeyFrame(kf2);
+	m_FadeOutAnim.AddKeyFrame(3.50, true,  kf0Palette);
+	m_FadeOutAnim.AddKeyFrame(3.75, false, kf1Palette);
+	m_FadeOutAnim.AddKeyFrame(4.00, false, kf1Palette); // same palette as the previous keyframe
 	
 	m_FadeOutAnim.Start();
 	

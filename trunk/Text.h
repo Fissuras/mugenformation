@@ -10,11 +10,12 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <string>
 
+#include "Drawable.h"
 #include "Font.h"
 #include "Types.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
-class Text
+class Text : public Drawable
 {
 	friend class	DisplayContext;
 
