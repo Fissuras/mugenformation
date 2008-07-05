@@ -11,21 +11,24 @@
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Rectangle::Rectangle()
-:m_Position(0, 0)
+:Drawable()
+,m_Position(0, 0)
 ,m_Width(0)
 ,m_Height(0)
 {
 }
 
 Rectangle::Rectangle(const Point& position, Size width, Size height)
-:m_Position(position)
+:Drawable()
+,m_Position(position)
 ,m_Width(width)
 ,m_Height(height)
 {
 }
 
 Rectangle::Rectangle(Coord x, Coord y, Size width, Size height)
-:m_Position(x, y)
+:Drawable()
+,m_Position(x, y)
 ,m_Width(width)
 ,m_Height(height)
 {

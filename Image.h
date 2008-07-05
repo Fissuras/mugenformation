@@ -12,11 +12,12 @@
 #include <string>
 #include <SDL/SDL.h>
 
+#include "Drawable.h"
 #include "Palette.h"
 #include "Types.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
-class Image
+class Image : public Drawable
 {
 	friend class	DisplayContext;
 

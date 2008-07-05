@@ -119,6 +119,8 @@ void DisplayContext::DrawRectangle(const Point& position, Size width, Size heigh
 
 void DisplayContext::DrawRectangle(const Rectangle& rectangle, bool filled)
 {
+	if(!rectangle.IsVisible()) return;
+	
 	Coord x = rectangle.GetX();
 	Coord y = rectangle.GetY();
 	Size width = rectangle.GetWidth();
@@ -161,6 +163,8 @@ void DisplayContext::DrawImage(const Image& image, const Point& position)
 {
 	DEBUG_ASSERT(m_Screen);
 	
+	if(!image.IsVisible()) return;
+	
 	// Blit whole image to screen
 	
 	SDL_Rect destination;
@@ -173,6 +177,8 @@ void DisplayContext::DrawImage(const Image& image, const Point& position)
 void DisplayContext::DrawImage(const Image& image, const Point& position, const Rectangle& clippingMask)
 {
 	DEBUG_ASSERT(m_Screen);
+	
+	if(!image.IsVisible()) return;
 	
 	SDL_Rect destination;
 	destination.x = position.GetX();
@@ -191,6 +197,8 @@ void DisplayContext::DrawText(const Text& text, const Point& position)
 {
 	DEBUG_ASSERT(m_Screen);
 	
+	if(!text.IsVisible()) return;
+	
 	Rectangle mask;
 	Point charPosition(position);
 	
@@ -207,7 +215,7 @@ void DisplayContext::DrawText(const Text& text, const Point& position)
 			// TODO Get character range from font's config file
 			mask.MoveTo((Coord)((character - '!') * text.m_Font->GetCharacterWidth()), 0);
 			mask.ResizeTo(charWidth, charHeight);
-		
+			
 			DrawImage(text.m_Font->m_FontImage, charPosition, mask);
 		}
 		

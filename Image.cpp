@@ -9,24 +9,28 @@
 #include <string>
 
 #include "Debug.h"
+#include "Drawable.h"
 #include "Image.h"
 #include "Palette.h"
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Image::Image()
-:m_Surface(NULL)
+:Drawable()
+,m_Surface(NULL)
 {
 }
 
 Image::Image(std::string filename)
-:m_Surface(NULL)
+:Drawable()
+,m_Surface(NULL)
 ,m_Filename(filename)
 {
 	Load(m_Filename);
 }
 
 Image::Image(const Image& image)
+:Drawable()
 {
 	m_Filename = image.m_Filename;
 	

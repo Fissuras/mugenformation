@@ -7,27 +7,32 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <string>
 
+#include "Drawable.h"
 #include "Font.h"
 #include "Text.h"
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Text::Text()
+:Drawable()
 {
 }
 
 Text::Text(std::string text)
-:m_String(text)
+:Drawable()
+,m_String(text)
 {
 }
 
 Text::Text(FontPtr font)
-:m_Font(font)
+:Drawable()
+,m_Font(font)
 {
 }
 
 Text::Text(std::string text, FontPtr font)
-:m_String(text)
+:Drawable()
+,m_String(text)
 ,m_Font(font)
 {
 }

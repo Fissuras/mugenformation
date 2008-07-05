@@ -9,9 +9,7 @@
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "Animation.hpp"
-#include "Debug.h"
 #include "Image.h"
-#include "KeyFrame.hpp"
 #include "Palette.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
@@ -22,8 +20,8 @@ public:
 	virtual				~PaletteAnimation();
 
 protected:
-	virtual	void		SetValue(const PalettePtr& keyFrame);
-	virtual	PalettePtr	BlendValues(const KeyFrameType& current, const KeyFrameType& next, double percentage);
+	virtual	void		SetValue(const PalettePtr& palette);
+	virtual	PalettePtr	BlendValues(const PalettePtr& current, const PalettePtr& next, double percentage);
 	Byte				BlendShade(Byte currentShade, Byte nextShade, double percentage) const;
 	
 	ImagePtr			m_Image;

@@ -8,11 +8,14 @@
 #define RECTANGLE_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <boost/shared_ptr.hpp>
+
+#include "Drawable.h"
 #include "Point.h"
 #include "Types.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
-class Rectangle
+class Rectangle : public Drawable
 {
 public:
 				 Rectangle();
@@ -43,5 +46,8 @@ protected:
 	Size		m_Width;
 	Size		m_Height;
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Rectangle>	RectanglePtr;
 
 #endif // RECTANGLE_H

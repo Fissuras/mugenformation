@@ -10,7 +10,6 @@
 #include "Animation.hpp"
 #include "Debug.h"
 #include "Image.h"
-#include "KeyFrame.hpp"
 #include "Palette.h"
 #include "PaletteAnimation.h"
 
@@ -30,19 +29,16 @@ void PaletteAnimation::SetValue(const PalettePtr& palette)
 	m_Image->SetPalette( palette );
 }
 
-PalettePtr PaletteAnimation::BlendValues(const KeyFrameType& current, const KeyFrameType& next, double percentage)
+PalettePtr PaletteAnimation::BlendValues(const PalettePtr& current, const PalettePtr& next, double percentage)
 {
-	PalettePtr currentFramePalette = current.GetValue();
-	PalettePtr nextFramePalette = next.GetValue();
+	DEBUG_ASSERT(current->GetNbColors() == next->GetNbColors());
 	
-	DEBUG_ASSERT(currentFramePalette->GetNbColors() == nextFramePalette->GetNbColors());
-	
-	Byte nbColors = currentFramePalette->GetNbColors();
+	Byte nbColors = current->GetNbColors();
 	PalettePtr blendedPalette( new Palette(nbColors) );
 	for(Byte i=0; i<nbColors; ++i)
 	{
-		Color currentColor = currentFramePalette->GetColor(i);
-		Color nextColor = nextFramePalette->GetColor(i);
+		Color currentColor = current->GetColor(i);
+		Color nextColor = next->GetColor(i);
 		
 		Byte red = BlendShade(currentColor.GetRed(), nextColor.GetRed(), percentage);
 		Byte green = BlendShade(currentColor.GetGreen(), nextColor.GetGreen(), percentage);
