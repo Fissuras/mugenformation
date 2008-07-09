@@ -14,7 +14,8 @@ enum Keys
 	DOWN,
 	LEFT,
 	RIGHT,
-	RETURN
+	RETURN,
+	ESCAPE
 };
 
 #endif // KEYS_H

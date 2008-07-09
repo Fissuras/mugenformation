@@ -15,14 +15,16 @@
 class VisibilityAnimation : public Animation<bool>
 {
 public:
-						 VisibilityAnimation(const RectanglePtr& rectangle);
-	virtual				~VisibilityAnimation();
+					 VisibilityAnimation();
+	virtual			~VisibilityAnimation();
+	
+	virtual	void	SetControlledObject(const DrawablePtr& drawable) { m_Drawable = drawable; }
 
 protected:
-	virtual	void		SetValue(const bool& visible);
-	virtual	bool		BlendValues(const bool& current, const bool& next, double percentage);
+	virtual	void	SetValue(const bool& visible);
+	virtual	bool	BlendValues(const bool& current, const bool& next, double percentage);
 	
-	RectanglePtr		m_Rectangle;
+	DrawablePtr		m_Drawable;
 };
 
 #endif // VISIBILITYANIMATION_H

@@ -9,6 +9,7 @@
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "DisplayContext.h"
+#include "FramerateModule.h"
 #include "KeyboardDevice.h"
 #include "Scene.h"
 
@@ -37,6 +38,8 @@ protected:
 	ScenePtr		m_CurrentScene;
 	
 	bool			m_Quit;
+	
+	FramerateModule	m_Framerate;
 };
 
 #endif // GAME_H

@@ -62,7 +62,7 @@ void SplashScene::Update(double deltaTime, double totalTime)
 
 void SplashScene::Render(DisplayContext* displayContext)
 {
-	Scene::Render(displayContext);
-	
 	displayContext->DrawImage(*m_Splash, Point::Zero);
+	
+	Scene::Render(displayContext);
 }

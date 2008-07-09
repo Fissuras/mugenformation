@@ -42,14 +42,13 @@ protected:
 	};
 	
 	FontPtr			m_Font;
-	Text			m_MenuElements[ITEM_QTY];
+	TextPtr			m_MenuElements[ITEM_QTY];
 	Point			m_Positions[ITEM_QTY];
 	Text			m_FocusText;
 	int				m_FocusIndex;
 	
 	RectanglePtr	m_VerticalRect;
 	RectanglePtr	m_HorizontalRect;
-	RectanglePtr	m_BlinkRect;
 	
 	ShapeAnimation	m_VerticalRectAnim;
 	ShapeAnimation	m_HorizontalRectAnim;

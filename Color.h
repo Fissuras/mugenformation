@@ -35,6 +35,7 @@ public:
 	static const Color	Red;
 	static const Color	Green;
 	static const Color	Blue;
+	static const Color	Grey;
 
 private:
 	bool	IsEqual(const Color& color) const;

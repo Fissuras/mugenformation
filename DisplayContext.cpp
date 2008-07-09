@@ -136,13 +136,13 @@ void DisplayContext::DrawRectangle(const Rectangle& rectangle, bool filled)
 		FillRectangle(x, y, width, 1);
 		
 		// Bottom side
-		FillRectangle(x, y + height, width, 1);
+		FillRectangle(x, y + height - 1, width, 1);
 		
 		// Left side
 		FillRectangle(x, y, 1, height);
 		
 		// Right side
-		FillRectangle(x + width, y, 1, height);
+		FillRectangle(x + width - 1, y, 1, height);
 	}
 }
 
