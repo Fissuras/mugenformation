@@ -10,6 +10,7 @@
 #include "DisplayContext.h"
 #include "Font.h"
 #include "Game.h"
+#include "GameScene.h"
 #include "Keys.h"
 #include "MainMenu.h"
 #include "Point.h"
@@ -26,12 +27,10 @@ MainMenu::MainMenu(Game* game)
 ,m_FocusIndex(0)
 ,m_VerticalRect( new Rectangle(316, 0, 120, 480) )
 ,m_HorizontalRect( new Rectangle(0, 155, 640, 60) )
-,m_BlinkRect( new Rectangle )
 ,m_VerticalRectAnim( m_VerticalRect )
 ,m_HorizontalRectAnim( m_HorizontalRect )
-,m_BlinkAnim( m_BlinkRect )
+,m_BlinkAnim( )
 {
-	m_BlinkRect->SetVisibility(false);
 }
 
 MainMenu::~MainMenu()
@@ -51,8 +50,7 @@ bool MainMenu::Init()
 	
 	for(int i=0; i<ITEM_QTY; ++i)
 	{
-		m_MenuElements[i].SetFont(m_Font);
-		m_MenuElements[i].SetText(strings[i]);
+		m_MenuElements[i].reset( new Text(strings[i], m_Font) );
 	}
 	m_Positions[ITEM_PLAY_GAME	].MoveTo( 70, 245);
 	m_Positions[ITEM_OPTIONS	].MoveTo( 31, 325);
@@ -83,7 +81,7 @@ bool MainMenu::Init()
 	m_HorizontalRectAnim.AddKeyFrame(0.200, false, kf2HorizontalRect);
 	
 	// Blinking anim setup
-	bool visible = false;
+	bool visible = true;
 	for(int i=0; i<7; ++i)
 	{
 		m_BlinkAnim.AddKeyFrame(i * 0.1, false, visible);
@@ -109,16 +107,28 @@ void MainMenu::Update(double deltaTime, double totalTime)
 	
 	if(m_VerticalRectAnim.IsFinished())
 	{
+		ScenePtr nextScene;
+		
 		switch(m_FocusIndex)
 		{
 		case ITEM_PLAY_GAME:
+			nextScene.reset( new GameScene(m_Game) );
+			break;
 		case ITEM_OPTIONS:
+//			nextScene.reset( new OptionsMenu(m_Game) );
+//			break;
 		case ITEM_QUIT:
 			m_Game->Quit();
-			return;
+			break;
 		default:
 			DEBUG_ASSERT(false);
 		}
+		
+		if(nextScene)
+		{
+			m_Game->ChangeScene(nextScene);
+		}
+		return;
 	}
 	
 	if(!m_VerticalRectAnim.IsStarted() && !m_HorizontalRectAnim.IsStarted() && !m_BlinkAnim.IsStarted())
@@ -136,8 +146,7 @@ void MainMenu::Update(double deltaTime, double totalTime)
 		
 		if(m_Game->GetKeyboardDevice().IsKeyTriggered(RETURN))
 		{
-			m_BlinkRect->ResizeTo(m_MenuElements[m_FocusIndex].GetTextWidth(), m_MenuElements[m_FocusIndex].GetTextHeight());
-			m_BlinkRect->MoveTo(m_Positions[m_FocusIndex]);
+			m_BlinkAnim.SetControlledObject( DrawablePtr(m_MenuElements[m_FocusIndex]) );
 			
 			m_BlinkAnim.Start();
 		}
@@ -148,15 +157,12 @@ void MainMenu::Render(DisplayContext* displayContext)
 {
 	for(int i=0; i<ITEM_QTY; ++i)
 	{
-		displayContext->DrawText(m_MenuElements[i], m_Positions[i]);
+		displayContext->DrawText(*m_MenuElements[i], m_Positions[i]);
 	}
 	
 	Point arrowPosition( m_Positions[m_FocusIndex] );
 	arrowPosition.MoveBy(-m_FocusText.GetTextWidth(), 0);
 	displayContext->DrawText(m_FocusText, arrowPosition);
-	
-	displayContext->SetColor(Color::Black);
-	displayContext->DrawRectangle(*m_BlinkRect);
 	
 	displayContext->SetColor(Color::White);
 	displayContext->DrawRectangle(*m_VerticalRect);

@@ -8,6 +8,7 @@
 #define TEXT_H
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <boost/shared_ptr.hpp>
 #include <string>
 
 #include "Drawable.h"
@@ -36,5 +37,8 @@ protected:
 	std::string		m_String;
 	FontPtr			m_Font;
 };
+
+// UTILITY TYPEDEFS ////////////////////////////////////////////////////////////
+typedef boost::shared_ptr<Text>	TextPtr;
 
 #endif // TEXT_H

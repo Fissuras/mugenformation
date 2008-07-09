@@ -26,7 +26,7 @@ public:
 	void		MoveTo(Coord x, Coord y)		{ m_Position.MoveTo(x, y); }
 	void		MoveTo(const Point& position)	{ m_Position.MoveTo(position); }
 	
-	void		MoveBy(Size x, Size y)			{ m_Position.MoveBy(x, y); }
+	void		MoveBy(Coord x, Coord y)		{ m_Position.MoveBy(x, y); }
 	
 	Coord		GetX() const					{ return m_Position.GetX(); }
 	Coord		GetY() const					{ return m_Position.GetY(); }

@@ -9,6 +9,11 @@
 #include <string>
 #include <iostream>
 
+#ifdef _WIN32
+#include <sstream>
+#include <windows.h>
+#endif
+
 #include "Debug.h"
 
 #ifndef NDEBUG
@@ -18,7 +23,15 @@ void Debug::Assert(bool condition, const char* file, int line)
 {
 	if(!condition)
 	{
-		std::cout << "FATAL ERROR (" << file << ", line " << line << ")\n";
+#ifdef _WIN32
+		std::stringstream msg;
+		msg << "ASSERTION FAILED\n\n" << file << ", line " << line << "\n";
+		
+		MessageBoxA(0, msg.str().c_str(), "ASSERTION FAILED", MB_ICONERROR);
+#endif
+		
+		std::cout << "ASSERTION FAILED (" << file << ", line " << line << ")\n";
+		
 		int* p = 0;
 		*p = 1;
 	}
@@ -28,7 +41,15 @@ void Debug::Assert2(bool condition, std::string message, const char* file, int l
 {
 	if(!condition)
 	{
-		std::cout << "FATAL ERROR (" << file << ", line " << line << ") : " << message << "\n";
+#ifdef _WIN32
+		std::stringstream msg;
+		msg << "ASSERTION FAILED\n\n" << file << ", line " << line << "\n";
+				
+		MessageBoxA(0, msg.str().c_str(), "ASSERTION FAILED", MB_ICONERROR);
+#endif
+		
+		std::cout << "ASSERTION FAILED (" << file << ", line " << line << ") : " << message << "\n";
+		
 		int* p = 0;
 		*p = 1;
 	}

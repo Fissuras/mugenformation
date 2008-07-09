@@ -16,12 +16,16 @@
 #include "SplashScene.h"
 #include "Types.h"
 
+// MACROS //////////////////////////////////////////////////////////////////////
+#define USE_FRAMERATE_LIMITER
+
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Game::Game()
 :m_DisplayContext()
 ,m_KeyboardDevice()
 ,m_CurrentScene()
 ,m_Quit(false)
+,m_Framerate(this, 60)
 {
 }
 
@@ -70,14 +74,22 @@ void Game::Start()
 		double totalTime = (double)(currentTime - startTime) / 1000.0;
 		double deltaTime = (double)(currentTime - lastTime) / 1000.0;
 		
+		lastTime = currentTime;
+		
 		// MANAGE CURRENT SCENE
 		m_CurrentScene->Update(deltaTime, totalTime);
+		m_Framerate.Update(deltaTime, totalTime);
 		
 		// RENDER GAME OBJECTS
 		m_CurrentScene->Render(&m_DisplayContext);
+		m_Framerate.Render(&m_DisplayContext);
 		
 		// FLIP (SWAP) DISPLAY BUFFERS
 		m_DisplayContext.Flip();
+		
+#ifdef USE_FRAMERATE_LIMITER
+		m_Framerate.LimitFramerate();
+#endif
 	}
 }
 

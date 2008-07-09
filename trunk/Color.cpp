@@ -15,6 +15,7 @@ const Color Color::Black( 0x00, 0x00, 0x00 );
 const Color Color::Red(   0xff, 0x00, 0x00 );
 const Color Color::Green( 0x00, 0xff, 0x00 );
 const Color Color::Blue ( 0x00, 0x00, 0xff );
+const Color Color::Grey	( 0x80, 0x80, 0x80 );
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 Color::Color()

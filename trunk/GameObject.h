@@ -11,6 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <list>
 
+#include "Drawable.h"
 #include "Types.h"
 
 // FORWARD DECLARATIONS ////////////////////////////////////////////////////////
@@ -18,10 +19,10 @@ class DisplayContext;
 class Game;
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
-class GameObject
+class GameObject : public Drawable
 {
 public:
-					GameObject(UID uniqueId, Game* game);
+					 GameObject(UID uniqueId, Game* game);
 	virtual			~GameObject();
 	
 	virtual	bool	Init() = 0;

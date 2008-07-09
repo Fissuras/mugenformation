@@ -77,6 +77,9 @@ bool KeyboardDevice::IsKeyPressedImpl(Keys key, bool triggered) const
 	case RETURN:
 		index = SDLK_RETURN;
 		break;
+	case ESCAPE:
+		index = SDLK_ESCAPE;
+		break;
 	default:
 		return false;
 	}

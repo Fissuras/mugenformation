@@ -70,6 +70,8 @@ bool Image::Load(std::string filename)
 	
 	m_Surface = SDL_LoadBMP(m_Filename.c_str());
 	
+	DEBUG_ASSERT(m_Surface);
+	
 	// Enable RLE to improve performance
 	SDL_SetColorKey(m_Surface, SDL_RLEACCEL, 0);
 	
