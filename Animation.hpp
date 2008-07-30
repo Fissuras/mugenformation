@@ -29,7 +29,7 @@ public:
 	void				AddKeyFrame(double time, bool blended, const ValueType& value);
 	
 	void				Start();
-	void				Update(double deltaTime, double totalTime);
+	void				Update(double deltaTime);
 	
 	bool				IsStarted() const	{ return m_Started; }
 	bool				IsFinished() const	{ return IsStarted() && m_Finished; }
@@ -40,7 +40,7 @@ protected:
 	
 	KeyFrameList		m_KeyFrames;
 	
-	double				m_AnimStartTime;
+	double				m_AnimTotalTime;
 	
 	bool				m_Started;
 	bool				m_Finished;
@@ -49,7 +49,7 @@ protected:
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 template<class ValueType>
 Animation<ValueType>::Animation()
-:m_AnimStartTime(-1.0)
+:m_AnimTotalTime(0.0)
 ,m_Started(false)
 ,m_Finished(false)
 {
@@ -84,19 +84,13 @@ void Animation<ValueType>::Start()
 }
 
 template<class ValueType>
-void Animation<ValueType>::Update(double deltaTime, double totalTime)
+void Animation<ValueType>::Update(double deltaTime)
 {
-	UNUSED(deltaTime);
-	
 	if(m_Started && !IsFinished())
 	{
-		if(m_AnimStartTime < 0.0)
-		{
-			m_AnimStartTime = totalTime;
-		}
+		m_AnimTotalTime += deltaTime;
 		
-		double animTotalTime = totalTime - m_AnimStartTime;
-		if(animTotalTime >= m_KeyFrames.back().GetTime())
+		if(m_AnimTotalTime >= m_KeyFrames.back().GetTime())
 		{
 			m_Finished = true;
 			return;
@@ -106,9 +100,9 @@ void Animation<ValueType>::Update(double deltaTime, double totalTime)
 		KeyFrameType currentFrame		= *first;
 		KeyFrameType nextFrame			= *(++first);
 		
-		if(animTotalTime >= currentFrame.GetTime())
+		if(m_AnimTotalTime >= currentFrame.GetTime())
 		{
-			if(animTotalTime >= nextFrame.GetTime())
+			if(m_AnimTotalTime >= nextFrame.GetTime())
 			{
 				// The current frame is finished
 				m_KeyFrames.pop_front();
@@ -118,7 +112,7 @@ void Animation<ValueType>::Update(double deltaTime, double totalTime)
 			else if(currentFrame.IsBlended())
 			{
 				double frameTotalTime = nextFrame.GetTime() - currentFrame.GetTime();
-				double frameTime = animTotalTime - currentFrame.GetTime(); 
+				double frameTime = m_AnimTotalTime - currentFrame.GetTime(); 
 				double percentage = frameTime / frameTotalTime;
 				
 				DEBUG_ASSERT(percentage >= 0.0 && percentage <= 1.0);

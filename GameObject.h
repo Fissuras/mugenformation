@@ -12,7 +12,6 @@
 #include <list>
 
 #include "Drawable.h"
-#include "Types.h"
 
 // FORWARD DECLARATIONS ////////////////////////////////////////////////////////
 class DisplayContext;
@@ -22,15 +21,14 @@ class Game;
 class GameObject : public Drawable
 {
 public:
-					 GameObject(UID uniqueId, Game* game);
+					 GameObject(Game* game);
 	virtual			~GameObject();
 	
 	virtual	bool	Init() = 0;
-	virtual void	Update(double deltaTime, double totalTime) = 0;
+	virtual void	Update(double deltaTime) = 0;
 	virtual	void	Render(DisplayContext* displayContext) = 0;
 
 protected:
-	UID				m_UID;
 	Game*			m_Game;
 };
 

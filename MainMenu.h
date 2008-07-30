@@ -9,7 +9,7 @@
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "Font.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Rectangle.h"
 #include "Scene.h"
 #include "ShapeAnimation.h"
@@ -28,7 +28,7 @@ public:
 	virtual			~MainMenu();
 	
 	virtual	bool	Init();
-	virtual void	Update(double deltaTime, double totalTime);
+	virtual void	Update(double deltaTime);
 	virtual	void	Render(DisplayContext* displayContext);
 
 protected:

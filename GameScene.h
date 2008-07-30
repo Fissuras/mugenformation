@@ -7,6 +7,8 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include "Font.h"
 #include "Player.h"
+#include "Point.hpp"
+#include "Rectangle.h"
 #include "Scene.h"
 #include "Text.h"
 
@@ -22,7 +24,7 @@ public:
 	virtual			~GameScene();
 	
 	virtual	bool	Init();
-	virtual void	Update(double deltaTime, double totalTime);
+	virtual void	Update(double deltaTime);
 	virtual	void	Render(DisplayContext* displayContext);
 
 protected:

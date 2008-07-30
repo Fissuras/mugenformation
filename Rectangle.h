@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "Drawable.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Types.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
@@ -40,6 +40,10 @@ public:
 	Size		GetHeight() const				{ return m_Height; }
 	
 	Point		GetPosition() const				{ return m_Position; }
+	
+	bool		Contains(const Point& point) const;
+	bool		Contains(const Rectangle& rect) const;
+	bool		ContainsCompletely(const Rectangle& rect) const;
 
 protected:
 	Point		m_Position;

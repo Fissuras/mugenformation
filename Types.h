@@ -16,6 +16,4 @@ typedef unsigned char	Byte;
 typedef signed short	Coord;
 typedef unsigned short	Size;
 
-typedef std::string		UID;
-
 #endif // TYPES_H

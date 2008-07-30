@@ -11,7 +11,7 @@
 #include "Image.h"
 #include "MainMenu.h"
 #include "Palette.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Scene.h"
 #include "SplashScene.h"
 
@@ -48,11 +48,11 @@ bool SplashScene::Init()
 	return init;
 }
 
-void SplashScene::Update(double deltaTime, double totalTime)
+void SplashScene::Update(double deltaTime)
 {
-	Scene::Update(deltaTime, totalTime);
+	Scene::Update(deltaTime);
 	
-	m_FadeOutAnim.Update(deltaTime, totalTime);
+	m_FadeOutAnim.Update(deltaTime);
 	
 	if(m_FadeOutAnim.IsFinished())
 	{

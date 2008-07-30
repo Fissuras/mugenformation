@@ -5,6 +5,8 @@
  */
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
+#include <cstdlib>
+#include <ctime>
 #include <SDL/SDL.h>
 
 #include "Color.h"
@@ -26,6 +28,7 @@ Game::Game()
 ,m_CurrentScene()
 ,m_Quit(false)
 ,m_Framerate(this, 60)
+,m_DisplayArea(0, 0, 640, 480)
 {
 }
 
@@ -38,7 +41,7 @@ bool Game::Init()
 	// TODO Load game config
 	
 	bool init = true;
-	init = init && m_DisplayContext.Init(640, 480);
+	init = init && m_DisplayContext.Init(m_DisplayArea.GetWidth(), m_DisplayArea.GetHeight());
 	init = init && m_KeyboardDevice.Init();
 	
 	SDL_WM_SetCaption("Mugen Formation", NULL);
@@ -47,6 +50,9 @@ bool Game::Init()
 	m_CurrentScene.reset( new SplashScene(this) );
 	init = init && m_CurrentScene->Init();
 	
+	// Initialize random number generator
+	srand( time(NULL) );
+	
 	return init;
 }
 
@@ -54,8 +60,7 @@ void Game::Start()
 {
 	DEBUG_ASSERT(m_CurrentScene.get() != NULL);
 	
-	Uint32 startTime = SDL_GetTicks();
-	Uint32 lastTime	= startTime;
+	Uint32 lastTime	= SDL_GetTicks();
 	m_Quit = false;
 	
 	while(!m_Quit)
@@ -71,14 +76,13 @@ void Game::Start()
 		ManageEvents();
 		
 		Uint32 currentTime = SDL_GetTicks();
-		double totalTime = (double)(currentTime - startTime) / 1000.0;
 		double deltaTime = (double)(currentTime - lastTime) / 1000.0;
 		
 		lastTime = currentTime;
 		
 		// MANAGE CURRENT SCENE
-		m_CurrentScene->Update(deltaTime, totalTime);
-		m_Framerate.Update(deltaTime, totalTime);
+		m_CurrentScene->Update(deltaTime);
+		m_Framerate.Update(deltaTime);
 		
 		// RENDER GAME OBJECTS
 		m_CurrentScene->Render(&m_DisplayContext);

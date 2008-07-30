@@ -11,8 +11,8 @@
 #include <boost/shared_ptr.hpp>
 
 #include "GameObject.h"
+#include "Point.hpp"
 #include "Rectangle.h"
-#include "Types.h"
 
 // FORWARD DECLARATIONS ////////////////////////////////////////////////////////
 class DisplayContext;
@@ -22,19 +22,18 @@ class Game;
 class Player : public GameObject
 {
 public:
-					 Player(UID uniqueId, Game* game);
+					 Player(Game* game);
 	virtual			~Player();
 	
 	virtual	bool	Init();
-	virtual void	Update(double deltaTime, double totalTime);
+	virtual void	Update(double deltaTime);
 	virtual	void	Render(DisplayContext* displayContext);
 
 protected:
 	Rectangle		m_CollisionRect;
 	double			m_Velocity;
 	
-	double			m_X;
-	double			m_Y;
+	PrecisePoint	m_Position;
 };
 
 // UTILITY TYPEDEFS ////////////////////////////////////////////////////////////

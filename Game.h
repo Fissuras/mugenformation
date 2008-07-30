@@ -12,6 +12,7 @@
 #include "FramerateModule.h"
 #include "KeyboardDevice.h"
 #include "Scene.h"
+#include "Rectangle.h"
 
 // CLASS DEFINITION ////////////////////////////////////////////////////////////
 class Game
@@ -28,6 +29,8 @@ public:
 	void			Quit()	{ m_Quit = true; }
 	
 	const KeyboardDevice&	GetKeyboardDevice() const	{ return m_KeyboardDevice; }
+	
+	virtual	Rectangle	GetDisplayArea() const			{ return m_DisplayArea; }
 
 protected:
 	virtual	void	ManageEvents();
@@ -40,6 +43,8 @@ protected:
 	bool			m_Quit;
 	
 	FramerateModule	m_Framerate;
+	
+	Rectangle		m_DisplayArea;
 };
 
 #endif // GAME_H
