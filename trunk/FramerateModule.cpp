@@ -15,13 +15,13 @@
 #include "FramerateModule.h"
 #include "Game.h"
 #include "GameObject.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Text.h"
 #include "Utility.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 FramerateModule::FramerateModule(Game* game, unsigned long targetFps)
-:GameObject("FramerateModule", game)
+:GameObject(game)
 ,m_FrameCount(0)
 ,m_Time(0.0)
 ,m_FrameTime(0.0)
@@ -50,10 +50,8 @@ bool FramerateModule::Init()
 	return true;
 }
 
-void FramerateModule::Update(double deltaTime, double totalTime)
+void FramerateModule::Update(double deltaTime)
 {
-	UNUSED(totalTime);
-	
 	m_FrameTime = deltaTime;
 	
 	m_FrameCount++;

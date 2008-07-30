@@ -30,7 +30,7 @@ void Debug::Assert(bool condition, const char* file, int line)
 		MessageBoxA(0, msg.str().c_str(), "ASSERTION FAILED", MB_ICONERROR);
 #endif
 		
-		std::cout << "ASSERTION FAILED (" << file << ", line " << line << ")\n";
+		std::cerr << "ASSERTION FAILED (" << file << ", line " << line << ")\n";
 		
 		int* p = 0;
 		*p = 1;
@@ -48,7 +48,7 @@ void Debug::Assert2(bool condition, std::string message, const char* file, int l
 		MessageBoxA(0, msg.str().c_str(), "ASSERTION FAILED", MB_ICONERROR);
 #endif
 		
-		std::cout << "ASSERTION FAILED (" << file << ", line " << line << ") : " << message << "\n";
+		std::cerr << "ASSERTION FAILED (" << file << ", line " << line << ") : " << message << "\n";
 		
 		int* p = 0;
 		*p = 1;

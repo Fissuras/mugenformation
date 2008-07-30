@@ -12,7 +12,7 @@
 #include "Debug.h"
 #include "DisplayContext.h"
 #include "Font.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Rectangle.h"
 #include "Text.h"
 #include "Types.h"

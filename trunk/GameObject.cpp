@@ -10,9 +10,8 @@
 #include "Types.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
-GameObject::GameObject(UID uniqueId, Game* game)
-:m_UID(uniqueId)
-,m_Game(game)
+GameObject::GameObject(Game* game)
+:m_Game(game)
 {
 }
 

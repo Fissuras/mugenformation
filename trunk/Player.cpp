@@ -7,21 +7,22 @@
 // INCLUDES ////////////////////////////////////////////////////////////////////
 #include <algorithm>
 
+#include "Debug.h"
 #include "DisplayContext.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Point.hpp"
 #include "Rectangle.h"
 #include "Types.h"
 #include "Utility.h"
 
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
-Player::Player(UID uniqueId, Game* game)
-:GameObject(uniqueId, game)
+Player::Player(Game* game)
+:GameObject(game)
 ,m_CollisionRect(0, 0, 5, 5)
 ,m_Velocity(200.0)
-,m_X(0.0)
-,m_Y(0.0)
+,m_Position(0.0, 0.0)
 {
 }
 
@@ -31,38 +32,44 @@ Player::~Player()
 
 bool Player::Init()
 {
-	m_X = (640 - m_CollisionRect.GetWidth()) / 2;
-	m_Y = 400;
+	Rectangle displayArea = m_Game->GetDisplayArea();
+	m_Position.MoveTo((displayArea.GetWidth() - m_CollisionRect.GetWidth()) / 2.0, 0.75 * displayArea.GetHeight());
 	
 	m_CollisionRect.ResizeTo(10, 10);
-	m_CollisionRect.MoveTo((Coord)m_X, (Coord)m_Y);
+	m_CollisionRect.MoveTo(m_Position);
 	
 	return true;
 }
 
-void Player::Update(double deltaTime, double totalTime)
+void Player::Update(double deltaTime)
 {
-	UNUSED(deltaTime);
-	UNUSED(totalTime);
-	
 	if(m_Game->GetKeyboardDevice().IsKeyPressed(LEFT))
 	{
-		m_X = std::max(m_X - (m_Velocity * deltaTime), 0.0);
+		m_Position.MoveBy(-(m_Velocity * deltaTime), 0.0);
 	}
 	if(m_Game->GetKeyboardDevice().IsKeyPressed(RIGHT))
 	{
-		m_X = std::min(m_X + (m_Velocity * deltaTime), 640.0 - m_CollisionRect.GetWidth());
+		m_Position.MoveBy((m_Velocity * deltaTime), 0.0);
 	}
 	if(m_Game->GetKeyboardDevice().IsKeyPressed(UP))
 	{
-		m_Y = std::max(m_Y - (m_Velocity * deltaTime), 0.0);
+		m_Position.MoveBy(0.0, -(m_Velocity * deltaTime));
 	}
 	if(m_Game->GetKeyboardDevice().IsKeyPressed(DOWN))
 	{
-		m_Y = std::min(m_Y + (m_Velocity * deltaTime), 480.0 - m_CollisionRect.GetHeight());
+		m_Position.MoveBy(0.0, (m_Velocity * deltaTime));
 	}
 	
-	m_CollisionRect.MoveTo((Coord)m_X, (Coord)m_Y);
+	if(m_Game->GetKeyboardDevice().IsKeyPressed(RETURN))
+	{
+	}
+	
+	Rectangle displayArea = m_Game->GetDisplayArea();
+	double x = std::min( std::max(0.0, m_Position.GetX()) , displayArea.GetWidth()  - (double)m_CollisionRect.GetWidth() );
+	double y = std::min( std::max(0.0, m_Position.GetY()) , displayArea.GetHeight() - (double)m_CollisionRect.GetHeight() );
+	m_Position.MoveTo(x, y);
+	
+	m_CollisionRect.MoveTo(m_Position);
 }
 
 void Player::Render(DisplayContext* displayContext)

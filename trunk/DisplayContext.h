@@ -12,7 +12,7 @@
 
 #include "Color.h"
 #include "Image.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Rectangle.h"
 #include "Text.h"
 #include "Types.h"

@@ -21,7 +21,7 @@ public:
 	virtual				~SplashScene();
 		
 	virtual	bool		Init();
-	virtual	void		Update(double deltaTime, double totalTime);
+	virtual	void		Update(double deltaTime);
 	virtual	void		Render(DisplayContext* displayContext);
 
 protected:

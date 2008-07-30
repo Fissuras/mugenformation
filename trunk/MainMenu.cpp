@@ -13,7 +13,7 @@
 #include "GameScene.h"
 #include "Keys.h"
 #include "MainMenu.h"
-#include "Point.h"
+#include "Point.hpp"
 #include "Rectangle.h"
 #include "Scene.h"
 #include "ShapeAnimation.h"
@@ -91,13 +91,13 @@ bool MainMenu::Init()
 	return init;
 }
 
-void MainMenu::Update(double deltaTime, double totalTime)
+void MainMenu::Update(double deltaTime)
 {
-	Scene::Update(deltaTime, totalTime);
+	Scene::Update(deltaTime);
 	
-	m_VerticalRectAnim.Update(deltaTime, totalTime);
-	m_HorizontalRectAnim.Update(deltaTime, totalTime);
-	m_BlinkAnim.Update(deltaTime, totalTime);
+	m_VerticalRectAnim.Update(deltaTime);
+	m_HorizontalRectAnim.Update(deltaTime);
+	m_BlinkAnim.Update(deltaTime);
 	
 	if(m_BlinkAnim.IsFinished() && !m_VerticalRectAnim.IsStarted())
 	{

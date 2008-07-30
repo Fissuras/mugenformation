@@ -34,12 +34,12 @@ bool Scene::Init()
 	return true;
 }
 
-void Scene::Update(double deltaTime, double totalTime)
+void Scene::Update(double deltaTime)
 {
 	for(GameObjectIterator i = m_GameObjects.begin(); i != m_GameObjects.end(); ++i)
 	{
 		GameObjectPtr gameObject(*i);
-		gameObject->Update(deltaTime, totalTime);
+		gameObject->Update(deltaTime);
 	}
 }
 

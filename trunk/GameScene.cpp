@@ -5,8 +5,6 @@
  */
 
 // INCLUDES ////////////////////////////////////////////////////////////////////
-#include <sstream>
-
 #include "Color.h"
 #include "DisplayContext.h"
 #include "Game.h"
@@ -17,14 +15,14 @@
 // IMPLEMENTATION //////////////////////////////////////////////////////////////
 GameScene::GameScene(Game* game)
 :Scene(game)
-,m_Player( new Player("Player1", game) )
+,m_Player( new Player(game) )
 {
 }
 
 GameScene::~GameScene()
 {
 }
-	
+
 bool GameScene::Init()
 {
 	m_GameObjects.push_back(m_Player);
@@ -32,7 +30,7 @@ bool GameScene::Init()
 	return Scene::Init();
 }
 
-void GameScene::Update(double deltaTime, double totalTime)
+void GameScene::Update(double deltaTime)
 {
 	if(m_Game->GetKeyboardDevice().IsKeyTriggered(ESCAPE))
 	{
@@ -40,7 +38,7 @@ void GameScene::Update(double deltaTime, double totalTime)
 		return;
 	}
 	
-	Scene::Update(deltaTime, totalTime);
+	Scene::Update(deltaTime);
 }
 
 void GameScene::Render(DisplayContext* displayContext)
